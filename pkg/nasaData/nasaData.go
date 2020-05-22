@@ -1,11 +1,13 @@
 package nasaData
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/zacharygilliom/MarsWeatherBot/configs"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 )
 
 func GetData() string {
@@ -25,4 +27,23 @@ func GetData() string {
 	string_body := string(body)
 
 	return string_body
+}
+
+func ParseJson() SolDays {
+	jsonFile, err := os.Open("nasa.json")
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println("nasa.json file opened successfully")
+
+	defer jsonFile.Close()
+
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+
+	var result SolDays
+	json.Unmarshal([]byte(byteValue), &result)
+
+	return result
 }

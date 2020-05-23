@@ -10,26 +10,32 @@ import (
 	"os"
 )
 
-func GetData() string {
+func GetData() SolDay {
 	api_key := configs.GetCredentials()
 	resp, err := http.Get("https://api.nasa.gov/insight_weather/?api_key=" + api_key + "&feedtype=json&ver=1.0")
 	if err != nil {
 		fmt.Println("Get Request Error : %d", err)
 	} else {
 		fmt.Println("Successful Get Request")
-		fmt.Println(resp)
+		//fmt.Println(resp)
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatalln(err)
 	}
-
-	string_body := string(body)
-
-	return string_body
+	//string_body := string(body)
+	fmt.Println("JSON string representation")
+	//jsonData := []byte(body)
+	var result SolDay
+	json.Unmarshal([]byte(body), &result)
+	
+	for _, day := range result {
+		fmt.Printf("%v\n", day)
+	}
+	return result
 }
 
-func ParseJson() SolDays {
+func ParseJson() SolDay {
 	jsonFile, err := os.Open("nasa.json")
 
 	if err != nil {
@@ -42,7 +48,7 @@ func ParseJson() SolDays {
 
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
-	var result SolDays
+	var result SolDay
 	json.Unmarshal([]byte(byteValue), &result)
 
 	return result

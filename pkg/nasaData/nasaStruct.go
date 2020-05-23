@@ -1,16 +1,9 @@
 package nasaData
 
-type SolDays struct {
-	Day520  Day520   `json:"520"`
-	Day521  Day521   `json:"521"`
-	Day522  Day522   `json:"522"`
-	Day523  Day523   `json:"523"`
-	Day524  Day524   `json:"524"`
-	Day525  Day525   `json:"525"`
-	Day526  Day526   `json:"526"`
-	SolKeys []string `json:"sol_keys"`
-	// ValidityChecks ValidityChecks `json:"validity_checks"`
-}
+//type SolDays map[string]SolDay
+
+type SolDay map[string]Day
+
 type AT struct {
 	Av float64 `json:"av"`
 	Ct int     `json:"ct"`
@@ -51,6 +44,13 @@ type Dev2 struct {
 	Ct             int     `json:"ct"`
 }
 type Dev3 struct {
+	CompassDegrees float64 `json:"compass_degrees"`
+	CompassPoint   string  `json:"compass_point"`
+	CompassRight   float64 `json:"compass_right"`
+	CompassUp      float64 `json:"compass_up"`
+	Ct             int     `json:"ct"`
+}
+type Dev4 struct {
 	CompassDegrees float64 `json:"compass_degrees"`
 	CompassPoint   string  `json:"compass_point"`
 	CompassRight   float64 `json:"compass_right"`
@@ -159,56 +159,13 @@ type WD struct {
 	Dev15      Dev15      `json:"15"`
 	MostCommon MostCommon `json:"most_common"`
 }
-type Day520 struct {
+type Day struct {
 	AT     AT     `json:"AT"`
 	HWS    HWS    `json:"HWS"`
 	PRE    PRE    `json:"PRE"`
 	Season string `json:"Season"`
 	WD     WD     `json:"WD"`
 }
-type Day521 struct {
-	AT     AT     `json:"AT"`
-	HWS    HWS    `json:"HWS"`
-	PRE    PRE    `json:"PRE"`
-	Season string `json:"Season"`
-	WD     WD     `json:"WD"`
-}
-type Day522 struct {
-	AT     AT     `json:"AT"`
-	HWS    HWS    `json:"HWS"`
-	PRE    PRE    `json:"PRE"`
-	Season string `json:"Season"`
-	WD     WD     `json:"WD"`
-}
-type Day523 struct {
-	AT     AT     `json:"AT"`
-	HWS    HWS    `json:"HWS"`
-	PRE    PRE    `json:"PRE"`
-	Season string `json:"Season"`
-	WD     WD     `json:"WD"`
-}
-type Day524 struct {
-	AT     AT     `json:"AT"`
-	HWS    HWS    `json:"HWS"`
-	PRE    PRE    `json:"PRE"`
-	Season string `json:"Season"`
-	WD     WD     `json:"WD"`
-}
-type Day525 struct {
-	AT     AT     `json:"AT"`
-	HWS    HWS    `json:"HWS"`
-	PRE    PRE    `json:"PRE"`
-	Season string `json:"Season"`
-	WD     WD     `json:"WD"`
-}
-type Day526 struct {
-	AT     AT     `json:"AT"`
-	HWS    HWS    `json:"HWS"`
-	PRE    PRE    `json:"PRE"`
-	Season string `json:"Season"`
-	WD     WD     `json:"WD"`
-}
-
 /* type ATValid struct {
 	SolHoursWithData []int `json:"sol_hours_with_data"`
 	Valid            bool  `json:"valid"`

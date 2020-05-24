@@ -22,6 +22,7 @@ func main() {
 	if k == nil {
 		fmt.Println(k)
 	}
+	fmt.Println(k["522"].AT.Av)
 	// fmt.Println(k)
 	/*prettyJSON, err := json.MarshalIndent(k, "", "   ")
 	if err != nil {

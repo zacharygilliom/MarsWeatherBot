@@ -166,6 +166,7 @@ type Day struct {
 	Season string `json:"Season"`
 	WD     WD     `json:"WD"`
 }
+
 /* type ATValid struct {
 	SolHoursWithData []int `json:"sol_hours_with_data"`
 	Valid            bool  `json:"valid"`

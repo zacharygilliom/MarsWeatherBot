@@ -28,14 +28,11 @@ func GetData() SolDay {
 	//jsonData := []byte(body)
 	var result SolDay
 	json.Unmarshal([]byte(body), &result)
-	
-	for _, day := range result {
-		fmt.Printf("%v\n", day)
-	}
+
 	return result
 }
 
-func ParseJson() SolDay {
+func ParseJsonFile() SolDay {
 	jsonFile, err := os.Open("nasa.json")
 
 	if err != nil {

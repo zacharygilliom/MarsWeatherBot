@@ -1,1 +1,6 @@
+
 configs/
+
+cmd/cmd
+go.mod
+go.sum

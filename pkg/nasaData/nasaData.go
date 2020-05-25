@@ -11,7 +11,7 @@ import (
 )
 
 func GetData() SolDay {
-	api_key := configs.GetCredentials()
+	api_key := configs.GetNasaCredentials()
 	resp, err := http.Get("https://api.nasa.gov/insight_weather/?api_key=" + api_key + "&feedtype=json&ver=1.0")
 	if err != nil {
 		fmt.Println("Get Request Error : %d", err)

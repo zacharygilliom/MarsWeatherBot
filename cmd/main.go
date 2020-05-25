@@ -4,6 +4,7 @@ import (
 	//"encoding/json"
 	"fmt"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
+	"github.com/zacharygilliom/MarsWeatherBot/pkg/twitterPost"
 	//"log"
 )
 
@@ -31,4 +32,6 @@ func main() {
 	fmt.Println("Prettified JSON Output")
 	fmt.Printf("%s\n", string(prettyJSON))
 	*/
+	client := twitterPost.CreateClient()
+	twitterPost.PostTweet(client)
 }

@@ -23,12 +23,9 @@ func GetData() SolDay {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	//string_body := string(body)
 	fmt.Println("JSON string representation")
-	//jsonData := []byte(body)
 	var result SolDay
 	json.Unmarshal([]byte(body), &result)
-
 	return result
 }
 

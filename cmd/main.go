@@ -13,7 +13,6 @@ func main() {
 	if nasadata == nil {
 		fmt.Println(nasadata)
 	}
-
 	// Pull the Average Temperature data out and format
 	dailyTemp := nasadata["530"].AT.Av
 	tweet := fmt.Sprintf("%.2f", dailyTemp)
@@ -23,3 +22,8 @@ func main() {
 	client := twitterPost.CreateClient()
 	twitterPost.PostTweet(client, tweet)
 }
+
+//TODO: Create function in nasadata.go to calculate current day of the week,
+// and to convert it to Sol Days.
+//TODO: Create function that will tweet out the weather info for the current SOL
+// day.

@@ -28,7 +28,7 @@ func CreateClient() *twitter.Client {
 }
 
 func PostTweet(client *twitter.Client, s string) {
-	tweet, resp, err := client.Statuses.Update("The Average Temperature is: "+s, nil)
+	tweet, resp, err := client.Statuses.Update("The Average Temperature is: "+s+"degrees celsius", nil)
 	if err != nil {
 		fmt.Println("Tweet Unsuccessful: %s, response: %s, error: %s", tweet, resp, err)
 	} else {

@@ -23,15 +23,15 @@ func main() {
 	if k == nil {
 		fmt.Println(k)
 	}
-	fmt.Println(k["522"].AT.Av)
-	// fmt.Println(k)
-	/*prettyJSON, err := json.MarshalIndent(k, "", "   ")
-	if err != nil {
-		log.Fatal("Failed to generate json", err)
-	}
-	fmt.Println("Prettified JSON Output")
-	fmt.Printf("%s\n", string(prettyJSON))
-	*/
+	// fmt.Println(k["522"].AT.Av)
+	dailyTemp := k["530"].AT.Av
+	tweet := fmt.Sprintf("%f", dailyTemp)
+
 	client := twitterPost.CreateClient()
-	twitterPost.PostTweet(client)
+	twitterPost.PostTweet(client, tweet)
 }
+
+/* func PostDailyWeather(client *twitter.Client, tweet string) {
+	twitterPost.PostTweet(client, tweet)
+}
+*/

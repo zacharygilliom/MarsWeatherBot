@@ -7,20 +7,30 @@ import (
 	"github.com/zacharygilliom/MarsWeatherBot/configs"
 )
 
+var APIKEY, APISECRETKEY, ACCESSTOKEN, ACCESSTOKENSECRET string = configs.GetTwitterCredentials()
+
+func CreateConfig() *oauth1.Config {
+	config := oauth1.NewConfig(APIKEY, APISECRETKEY)
+	return config
+}
+
+func CreateToken() *oauth1.Token {
+	token := oauth1.NewToken(ACCESSTOKEN, ACCESSTOKENSECRET)
+	return token
+}
+
 func CreateClient() *twitter.Client {
-	apikey, apisecretkey, accesstoken, accesstokensecret := configs.GetTwitterCredentials()
-	config := oauth1.NewConfig(apikey, apisecretkey)
-	token := oauth1.NewToken(accesstoken, accesstokensecret)
+	config := CreateConfig()
+	token := CreateToken()
 	httpClient := config.Client(oauth1.NoContext, token)
 	client := twitter.NewClient(httpClient)
 	return client
-
 }
 
-func PostTweet(client *twitter.Client) {
-	tweet, resp, err := client.Statuses.Update("Test Tweet", nil)
+func PostTweet(client *twitter.Client, s string) {
+	tweet, resp, err := client.Statuses.Update("The Average Temperature is: "+s, nil)
 	if err != nil {
-		fmt.Println("Tweet Unsuccessful: %d, response: %d, error: %d", tweet, resp, err)
+		fmt.Println("Tweet Unsuccessful: %s, response: %s, error: %s", tweet, resp, err)
 	} else {
 		fmt.Println("Tweet Successfully Posted")
 	}

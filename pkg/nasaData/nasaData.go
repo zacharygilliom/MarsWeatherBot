@@ -6,8 +6,11 @@ import (
 	"github.com/zacharygilliom/MarsWeatherBot/configs"
 	"io/ioutil"
 	"log"
+	"math"
 	"net/http"
 	"os"
+	"strconv"
+	"time"
 )
 
 func GetData() SolDay {
@@ -27,6 +30,16 @@ func GetData() SolDay {
 	var result SolDay
 	json.Unmarshal([]byte(body), &result)
 	return result
+}
+
+func GetSolDay() string {
+	start := time.Date(2018, time.Month(11), 26, 0, 0, 0, 0, time.UTC)
+	now := time.Now()
+	earthDays := now.Sub(start).Hours() / 24
+	solDays := earthDays / 1.02749125170
+	solDayFloor := math.Floor(solDays)
+	stringSolDayFloor := strconv.Itoa(int(solDayFloor))
+	return stringSolDayFloor
 }
 
 func ParseJsonFile() SolDay {

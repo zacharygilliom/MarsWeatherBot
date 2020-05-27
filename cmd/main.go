@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
-	//"github.com/zacharygilliom/MarsWeatherBot/pkg/twitterPost"
+	"github.com/zacharygilliom/MarsWeatherBot/pkg/twitterPost"
 )
 
 func main() {
@@ -13,20 +13,29 @@ func main() {
 	if nasadata == nil {
 		fmt.Println(nasadata)
 	}
+
+	solDay := nasaData.GetSolDay()
+	if solDay == nil {
+		fmt.Println("Get Sol Day function returned invalid data")
+	}
+
 	// Pull the Average Temperature data out and format
-	//dailyTemp := nasadata["530"].AT.Av
-	//tweet := fmt.Sprintf("%.2f", dailyTemp)
+	dailyTemp := GetDayTemp(solDay, nasadata)
+	dailyTempFormatted := fmt.Sprintf("%.2f", dailyTemp)
 
 	// Create our Twitter Client through the go-twitter API.
 	// And Post the tweet
-	//client := twitterPost.CreateClient()
-	//twitterPost.PostTweet(client, tweet)
+	client := twitterPost.CreateClient()
+	twitterPost.PostTweet(client, solDay, dailyTempFormatted)
 
-	day := nasaData.GetSolDay()
-	fmt.Println(day)
+}
+
+func GetDayTemp(solDay *string, data nasaData.SolDay) float64 {
+	currentDayTemp := data[*solDay].AT.Av
+	return currentDayTemp
 }
 
 //DONE: Create function in nasadata.go to calculate current day of the week,
 // and to convert it to Sol Days.
-//TODO: Create function that will tweet out the weather info for the current SOL
+//DONE: Create function that will tweet out the weather info for the current SOL
 // day.

@@ -13,6 +13,7 @@ import (
 	"time"
 )
 
+// Request Data from Nasa API and unmarshal it into our nasaData struct.
 func GetData() SolDay {
 	api_key := configs.GetNasaCredentials()
 	resp, err := http.Get("https://api.nasa.gov/insight_weather/?api_key=" + api_key + "&feedtype=json&ver=1.0")
@@ -20,13 +21,11 @@ func GetData() SolDay {
 		fmt.Println("Get Request Error : %d", err)
 	} else {
 		fmt.Println("Successful Get Request")
-		//fmt.Println(resp)
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Println("JSON string representation")
 	var result SolDay
 	json.Unmarshal([]byte(body), &result)
 	return result
@@ -44,6 +43,7 @@ func GetSolDay() *string {
 	return &stringSolDayFloor
 }
 
+/* Function below is to allow the user to download a copy of the json data and then use that data repeatedly instead of making numerous API calls.
 func ParseJsonFile() SolDay {
 	jsonFile, err := os.Open("nasa.json")
 
@@ -62,3 +62,4 @@ func ParseJsonFile() SolDay {
 
 	return result
 }
+*/

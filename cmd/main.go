@@ -11,7 +11,7 @@ func main() {
 	nasadata := nasaData.GetData()
 	fmt.Println("GetData configured correctly")
 	if nasadata == nil {
-		fmt.Println(nasadata)
+		fmt.Println("Error while parsing JSON data in GetData function")
 	}
 
 	solDay := nasaData.GetSolDay()
@@ -21,18 +21,18 @@ func main() {
 
 	// Pull the Average Temperature data out and format
 	dailyTemp := GetDayTemp(solDay, nasadata)
-	dailyTempFormatted := fmt.Sprintf("%.2f", dailyTemp)
 
 	// Create our Twitter Client through the go-twitter API.
 	// And Post the tweet
 	client := twitterPost.CreateClient()
-	twitterPost.PostTweet(client, solDay, dailyTempFormatted)
+	twitterPost.PostTweet(client, solDay, dailyTemp)
 
 }
 
-func GetDayTemp(solDay *string, data nasaData.SolDay) float64 {
+func GetDayTemp(solDay *string, data nasaData.SolDay) string {
 	currentDayTemp := data[*solDay].AT.Av
-	return currentDayTemp
+	currentDayTempFormatted := fmt.Sprintf("%.2f", currentDayTemp)
+	return currentDayTempFormatted
 }
 
 //DONE: Create function in nasadata.go to calculate current day of the week,

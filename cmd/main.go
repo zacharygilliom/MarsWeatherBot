@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
+	//"github.com/robfig/cron/v3"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/twitterPost"
 )
 
 func main() {
+
 	// Query our data and configure into our struct
 	nasadata := nasaData.GetData()
 	fmt.Println(nasadata)

@@ -9,6 +9,7 @@ import (
 func main() {
 	// Query our data and configure into our struct
 	nasadata := nasaData.GetData()
+	fmt.Println(nasadata)
 	fmt.Println("GetData configured correctly")
 	if nasadata == nil {
 		fmt.Println("Error while parsing JSON data in GetData function")
@@ -27,12 +28,14 @@ func main() {
 	client := twitterPost.CreateClient()
 	twitterPost.PostTweet(client, solDay, dailyTemp)
 
+	//fmt.Println(dailyTemp)
+	//fmt.Println(client)
+
 }
 
-func GetDayTemp(solDay *string, data nasaData.SolDay) string {
+func GetDayTemp(solDay *string, data nasaData.SolDay) float64 {
 	currentDayTemp := data[*solDay].AT.Av
-	currentDayTempFormatted := fmt.Sprintf("%.2f", currentDayTemp)
-	return currentDayTempFormatted
+	return currentDayTemp
 }
 
 //DONE: Create function in nasadata.go to calculate current day of the week,

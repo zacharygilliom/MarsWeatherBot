@@ -8,7 +8,7 @@ import (
 	"log"
 	"math"
 	"net/http"
-	"os"
+	//"os"
 	"strconv"
 	"time"
 )
@@ -39,6 +39,7 @@ func GetSolDay() *string {
 	earthDays := now.Sub(start).Hours() / 24
 	solDays := earthDays / 1.02749125170
 	solDayFloor := (math.Floor(solDays)) - 1
+	fmt.Println(solDayFloor)
 	stringSolDayFloor := strconv.Itoa(int(solDayFloor))
 	return &stringSolDayFloor
 }

@@ -1,8 +1,6 @@
 package nasaData
 
-//type SolDays map[string]SolDay
-
-type SolDay map[string]Day
+type SolDay map[int]Day
 
 type AT struct {
 	Av float64 `json:"av"`

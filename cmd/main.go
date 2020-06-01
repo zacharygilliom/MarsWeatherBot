@@ -11,8 +11,8 @@ func main() {
 
 	// Query our data and configure into our struct
 	nasadata := nasaData.GetData()
-	fmt.Println(nasadata)
 	fmt.Println("GetData configured correctly")
+	fmt.Println(nasadata[534].AT.Av)
 	if nasadata == nil {
 		fmt.Println("Error while parsing JSON data in GetData function")
 	}
@@ -28,14 +28,17 @@ func main() {
 	// Create our Twitter Client through the go-twitter API.
 	// And Post the tweet
 	client := twitterPost.CreateClient()
-	twitterPost.PostTweet(client, solDay, dailyTemp)
+	//twitterPost.NewTweet(client, solDay, dailyTemp)
 
-	//fmt.Println(dailyTemp)
-	//fmt.Println(client)
+	listday := nasaData.GetListDays(nasadata)
+	fmt.Println(*listday)
+	//fmt.Println(nasadata)
+	fmt.Println(dailyTemp)
+	fmt.Println(client)
 
 }
 
-func GetDayTemp(solDay *string, data nasaData.SolDay) float64 {
+func GetDayTemp(solDay *int, data nasaData.SolDay) float64 {
 	currentDayTemp := data[*solDay].AT.Av
 	return currentDayTemp
 }

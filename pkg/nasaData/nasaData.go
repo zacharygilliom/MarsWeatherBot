@@ -9,7 +9,8 @@ import (
 	"math"
 	"net/http"
 	//"os"
-	"strconv"
+	//"strconv"
+	"sort"
 	"time"
 )
 
@@ -26,22 +27,35 @@ func GetData() SolDay {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
 	var result SolDay
 	json.Unmarshal([]byte(body), &result)
 	return result
+
 }
 
 // Need to pass a whole number value to retrieve our data.  Since we are starting at time 11/26/2018 , 0,0,0 and
 // we are using the current time with non-zero values, rounding down should ive us the current day up until.
-func GetSolDay() *string {
+
+func GetListDays(days SolDay) *[]int {
+	var listday []int
+	for day, _ := range days {
+		listday = append(listday, day)
+	}
+	sort.Ints(listday)
+	return &listday
+
+}
+
+func GetSolDay() *int {
 	start := time.Date(2018, time.Month(11), 26, 0, 0, 0, 0, time.UTC)
 	now := time.Now()
 	earthDays := now.Sub(start).Hours() / 24
 	solDays := earthDays / 1.02749125170
 	solDayFloor := (math.Floor(solDays)) - 1
-	fmt.Println(solDayFloor)
-	stringSolDayFloor := strconv.Itoa(int(solDayFloor))
-	return &stringSolDayFloor
+	//stringSolDayFloor := strconv.Itoa(int(solDayFloor))
+	solDayFloorInt := int(solDayFloor)
+	return &solDayFloorInt
 }
 
 /* Function below is to allow the user to download a copy of the json data and then use that data repeatedly instead of making numerous API calls.

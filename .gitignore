@@ -3,3 +3,5 @@ configs/
 
 cmd/cmd
 go.mod
+
+*.swp

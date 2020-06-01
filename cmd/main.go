@@ -12,7 +12,6 @@ func main() {
 	// Query our data and configure into our struct
 	nasadata := nasaData.GetData()
 	fmt.Println("GetData configured correctly")
-	fmt.Println(nasadata[534].AT.Av)
 	if nasadata == nil {
 		fmt.Println("Error while parsing JSON data in GetData function")
 	}
@@ -31,7 +30,10 @@ func main() {
 	//twitterPost.NewTweet(client, solDay, dailyTemp)
 
 	listday := nasaData.GetListDays(nasadata)
-	fmt.Println(*listday)
+	for _, day := range *listday {
+		fmt.Println(nasadata[day].AT.Av)
+	}
+	//fmt.Println(*listday)
 	//fmt.Println(nasadata)
 	fmt.Println(dailyTemp)
 	fmt.Println(client)

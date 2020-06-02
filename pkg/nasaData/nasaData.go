@@ -17,7 +17,8 @@ import (
 // Request Data from Nasa API and unmarshal it into our nasaData struct.
 func GetData() SolDay {
 	api_key := configs.GetNasaCredentials()
-	resp, err := http.Get("https://api.nasa.gov/insight_weather/?api_key=" + api_key + "&feedtype=json&ver=1.0")
+	resp, err := http.Get("https://api.nasa.gov/insight_weather/?api_key=" +
+		api_key + "&feedtype=json&ver=1.0")
 	if err != nil {
 		fmt.Println("Get Request Error : %d", err)
 	} else {
@@ -47,15 +48,14 @@ func GetListDays(days SolDay) *[]int {
 
 }
 
-func GetSolDay() *int {
+func GetSolDay() int {
 	start := time.Date(2018, time.Month(11), 26, 0, 0, 0, 0, time.UTC)
 	now := time.Now()
 	earthDays := now.Sub(start).Hours() / 24
 	solDays := earthDays / 1.02749125170
 	solDayFloor := (math.Floor(solDays)) - 1
-	//stringSolDayFloor := strconv.Itoa(int(solDayFloor))
 	solDayFloorInt := int(solDayFloor)
-	return &solDayFloorInt
+	return solDayFloorInt
 }
 
 /* Function below is to allow the user to download a copy of the json data and then use that data repeatedly instead of making numerous API calls.

@@ -18,6 +18,7 @@ func main() {
 	}
 
 	solDay := nasaData.GetSolDay()
+	fmt.Println(solDay)
 
 	// Pull the Average Temperature data out and format
 
@@ -47,11 +48,13 @@ func OneDayTweet(day int, data nasaData.SolDay) string {
 func MultiDayTweet(days *[]int, data nasaData.SolDay) string {
 	var tweet string
 	tweet = "No New Data. Most Recent Readings:\n"
-	for day := range *days {
+	for _, day := range *days {
+		fmt.Println(day)
 		currentTemp := GetDayTemp(day, data)
+		fmt.Println(currentTemp)
 		currentTempStr := fmt.Sprintf("%.2f", currentTemp)
 		strday := strconv.Itoa(day)
-		tweet += strday + ": " + currentTempStr + "\n"
+		tweet += "Sol Day - " + strday + ": " + currentTempStr + " °C\n"
 	}
 	return tweet
 }

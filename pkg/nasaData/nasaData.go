@@ -49,7 +49,11 @@ func GetListDays(days SolDay) *[]int {
 }
 
 func GetSolDay() int {
-	start := time.Date(2018, time.Month(11), 26, 0, 0, 0, 0, time.UTC)
+	location, err := time.LoadLocation("America/New_York")
+	start := time.Date(2018, time.Month(11), 26, 0, 0, 0, 0, location)
+	if err != nil {
+		fmt.Println(err)
+	}
 	now := time.Now()
 	earthDays := now.Sub(start).Hours() / 24
 	solDays := earthDays / 1.02749125170

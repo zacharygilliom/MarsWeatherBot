@@ -3,8 +3,9 @@ package main
 import (
 	"fmt"
 	//"github.com/robfig/cron/v3"
+	"github.com/zacharygilliom/MarsWeatherBot/pkg/client"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
-	"github.com/zacharygilliom/MarsWeatherBot/pkg/twitterPost"
+	"github.com/zacharygilliom/MarsWeatherBot/pkg/twitter"
 	"strconv"
 )
 
@@ -25,9 +26,10 @@ func main() {
 	// Create our Twitter Client through the go-twitter API.
 	// And Post the tweet
 	listday := nasaData.GetListDays(nasadata)
-	client := twitterPost.CreateClient()
+	client := client.New()
+	//client := twitterPost.CreateClient()
 	tweet := ConfigureTweet(listday, solDay, nasadata)
-	twitterPost.NewTweet(client, tweet)
+	twitter.NewTweet(client, tweet)
 
 }
 

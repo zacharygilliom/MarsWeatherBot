@@ -27,9 +27,12 @@ func main() {
 	// And Post the tweet
 	listday := nasaData.GetListDays(nasadata)
 	client := client.New()
-	//client := twitterPost.CreateClient()
 	tweet := ConfigureTweet(listday, solDay, nasadata)
-	twitter.NewTweet(client, tweet)
+	fmt.Println(tweet)
+	//twitter.NewTweet(client, tweet)
+	tweets := twitter.GetTimeline(client)
+	lastTweet := tweets[0]
+	fmt.Println(lastTweet.Text)
 
 }
 
@@ -81,7 +84,4 @@ func intInSlice(a int, list *[]int) bool {
 	return false
 }
 
-//DONE: Create function in nasadata.go to calculate current day of the week,
-// and to convert it to Sol Days.
-//DONE: Create function that will tweet out the weather info for the current SOL
-// day.
+//TODO: create function to reply to tweets

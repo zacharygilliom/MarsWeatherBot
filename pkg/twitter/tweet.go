@@ -24,3 +24,15 @@ func GetTimeline(client *twitter.Client) []twitter.Tweet {
 	}
 	return tweets
 }
+
+func Stream(client *twitter.Client) *twitter.Stream {
+	params := &twitter.StreamFilterParams{
+		Track:         []string{"@MarsWeatherBot"},
+		StallWarnings: twitter.Bool(true),
+	}
+	stream, err := client.Streams.Filter(params)
+	if err != nil {
+		fmt.Println("Stream Connection Failed")
+	}
+	return stream
+}

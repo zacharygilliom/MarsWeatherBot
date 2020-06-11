@@ -7,6 +7,7 @@ import (
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/twitter"
 	"strconv"
+	"time"
 )
 
 func main() {
@@ -26,13 +27,20 @@ func main() {
 	// Create our Twitter Client through the go-twitter API.
 	// And Post the tweet
 	listday := nasaData.GetListDays(nasadata)
-	client := client.New()
+	clientOauth1 := client.NewOauth1()
+	//clientOauth2 := client.NewOauth2()
 	tweet := ConfigureTweet(listday, solDay, nasadata)
 	fmt.Println(tweet)
-	//twitter.NewTweet(client, tweet)
-	tweets := twitter.GetTimeline(client)
+	//twitter.NewTweet(clientOauth1, tweet)
+	tweets := twitter.GetTimeline(clientOauth1)
 	lastTweet := tweets[0]
 	fmt.Println(lastTweet.Text)
+	stream := twitter.Stream(clientOauth1)
+	for message := range stream.Messages {
+		fmt.Println(message)
+	}
+	time.Sleep(120 * time.Second)
+	//stream.Stop()
 
 }
 

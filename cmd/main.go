@@ -7,7 +7,6 @@ import (
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/twitter"
 	"strconv"
-	"time"
 )
 
 func main() {
@@ -35,12 +34,15 @@ func main() {
 	tweets := twitter.GetTimeline(clientOauth1)
 	lastTweet := tweets[0]
 	fmt.Println(lastTweet.Text)
-	stream := twitter.Stream(clientOauth1)
-	for message := range stream.Messages {
+	//twitter.GetMessages()
+	//stream := twitter.Stream(clientOauth1)
+	/*for message := range stream.Messages {
 		fmt.Println(message)
 	}
-	time.Sleep(120 * time.Second)
+	*/
+	//demux.HandleChan(stream.Messages)
 	//stream.Stop()
+	twitter.GetMessages(clientOauth1)
 
 }
 

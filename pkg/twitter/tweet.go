@@ -6,6 +6,9 @@ import (
 	//"github.com/dghubble/oauth1"
 	//"github.com/zacharygilliom/MarsWeatherBot/configs"
 	//"github.com/zacharygilliom/MarsWeatherBot/pkg/client"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 func NewTweet(client *twitter.Client, body string) {
@@ -35,4 +38,20 @@ func Stream(client *twitter.Client) *twitter.Stream {
 		fmt.Println("Stream Connection Failed")
 	}
 	return stream
+}
+
+func GetMessages(client *twitter.Client) {
+	demux := twitter.NewSwitchDemux()
+	demux.Tweet = func(tweet *twitter.Tweet) {
+		fmt.Println(tweet.Text)
+		fmt.Println(tweet.User)
+	}
+	stream := Stream(client)
+	fmt.Println("Stream Started...")
+	demux.HandleChan(stream.Messages)
+	ch := make(chan os.Signal)
+	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
+	<-ch
+	stream.Stop()
+	fmt.Println("Stream Stopped...")
 }

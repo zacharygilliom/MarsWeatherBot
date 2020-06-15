@@ -5,9 +5,11 @@ import (
 	"github.com/dghubble/go-twitter/twitter"
 	//"github.com/dghubble/oauth1"
 	//"github.com/zacharygilliom/MarsWeatherBot/configs"
-	//"github.com/zacharygilliom/MarsWeatherBot/pkg/client"
+	"github.com/zacharygilliom/MarsWeatherBot/pkg/client"
+	"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
 	"os"
 	"os/signal"
+	"strconv"
 	"syscall"
 )
 
@@ -40,11 +42,12 @@ func Stream(client *twitter.Client) *twitter.Stream {
 	return stream
 }
 
-func GetMessages(client *twitter.Client) {
+func GetMessages() {
 	demux := twitter.NewSwitchDemux()
+	client := client.NewOauth1()
 	demux.Tweet = func(tweet *twitter.Tweet) {
 		fmt.Println(tweet.Text)
-		fmt.Println(tweet.User)
+		fmt.Println(tweet.User.ScreenName)
 	}
 	stream := Stream(client)
 	fmt.Println("Stream Started...")
@@ -54,4 +57,59 @@ func GetMessages(client *twitter.Client) {
 	<-ch
 	stream.Stop()
 	fmt.Println("Stream Stopped...")
+}
+
+func OneDayTweet(day int, data nasaData.SolDay) string {
+	currentTemp := nasaData.GetDayTemp(day, data)
+	strDay := strconv.Itoa(day)
+	currentTempStr := fmt.Sprintf("%.2f", currentTemp)
+	tweet := "Most up to date Sol Day on Mars is: " +
+		strDay + "\n" + "The Average Temperature is " + currentTempStr + " degrees celsius"
+	return tweet
+}
+
+func MultiDayTweet(days *[]int, data nasaData.SolDay) string {
+	var tweet string
+	tweet = "No New Data. Most Recent Readings:\n"
+	for _, day := range *days {
+		fmt.Println(day)
+		currentTemp := nasaData.GetDayTemp(day, data)
+		fmt.Println(currentTemp)
+		currentTempStr := fmt.Sprintf("%.2f", currentTemp)
+		strday := strconv.Itoa(day)
+		tweet += "Sol Day - " + strday + ": " + currentTempStr + " °C\n"
+	}
+	return tweet
+}
+
+func ConfigureTweet(days *[]int, day int, data nasaData.SolDay) string {
+	check := intInSlice(day, days)
+	if check == true {
+		tweet := OneDayTweet(day, data)
+		return tweet
+	} else {
+		tweet := MultiDayTweet(days, data)
+		return tweet
+	}
+}
+
+func intInSlice(a int, list *[]int) bool {
+	for _, b := range *list {
+		if b == a {
+			return true
+		}
+	}
+	return false
+}
+
+func PostTweet() {
+	nasadata := nasaData.GetData()
+	client := client.NewOauth1()
+	if nasadata == nil {
+		fmt.Println("Error While Parsing JSON Data")
+	}
+	solDay := nasaData.GetSolDay()
+	listday := nasaData.GetListDays(nasadata)
+	tweet := ConfigureTweet(listday, solDay, nasadata)
+	NewTweet(client, tweet)
 }

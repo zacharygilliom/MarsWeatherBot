@@ -62,6 +62,11 @@ func GetSolDay() int {
 	return solDayFloorInt
 }
 
+func GetDayTemp(solDay int, data SolDay) float64 {
+	currentDayTemp := data[solDay].AT.Av
+	return currentDayTemp
+}
+
 /* Function below is to allow the user to download a copy of the json data and then use that data repeatedly instead of making numerous API calls.
 func ParseJsonFile() SolDay {
 	jsonFile, err := os.Open("nasa.json")

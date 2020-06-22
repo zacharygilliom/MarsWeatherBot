@@ -48,6 +48,9 @@ func GetMessages() {
 	demux.Tweet = func(tweet *twitter.Tweet) {
 		fmt.Println(tweet.Text)
 		fmt.Println(tweet.User.ScreenName)
+		message := tweet.Text
+		user := tweet.User.ScreenName
+		ReplySwitch(message, user, client)
 	}
 	stream := Stream(client)
 	fmt.Println("Stream Started...")

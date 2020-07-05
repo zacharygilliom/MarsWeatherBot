@@ -2,3 +2,5 @@
 configs/
 
 *.swp
+
+*.pem

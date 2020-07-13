@@ -22,7 +22,7 @@ func GetData() SolDay {
 	if err != nil {
 		fmt.Println("Get Request Error : %d", err)
 	} else {
-		fmt.Println("Successful Get Request")
+		fmt.Println("Successful Get Request with NasaData API")
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {

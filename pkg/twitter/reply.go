@@ -1,11 +1,11 @@
 package twitter
 
 import (
-	"fmt"
+	//"fmt"
 	"github.com/dghubble/go-twitter/twitter"
 	//"github.com/zacharygilliom/MarsWeatherBot/pkg/client"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
-	"strconv"
+	//"strconv"
 	"strings"
 )
 
@@ -27,13 +27,16 @@ func ReplyAbout(user string, client *twitter.Client) {
 }
 
 func ReplyDayAndWeather(user string, client *twitter.Client) {
-	data := nasaData.GetData()
+	nasadata := nasaData.GetData()
 	currentDay := nasaData.GetSolDay()
-	strDay := strconv.Itoa(currentDay)
-	currentDayTemp := nasaData.GetDayTemp(currentDay, data)
-	currentTempStr := fmt.Sprintf("%.2f", currentDayTemp)
-	body := "@" + user + "\n Current Mars Sol Day: " + strDay + "\n Current Temperature: " + currentTempStr
-	NewTweet(client, body)
+	//strDay := strconv.Itoa(currentDay)
+	//currentDayTemp := nasaData.GetDayTemp(currentDay, data)
+	//currentTempStr := fmt.Sprintf("%.2f", currentDayTemp)
+	listday := nasaData.GetListDays(nasadata)
+	body := ConfigureTweet(listday, currentDay, nasadata)
+	tweetBody := "@" + user + " " + body
+	//body := "@" + user + "\n Current Mars Sol Day: " + strDay + "\n Current Temperature: " + currentTempStr
+	NewTweet(client, tweetBody)
 }
 
 func ReplyHelp(user string, client *twitter.Client) {

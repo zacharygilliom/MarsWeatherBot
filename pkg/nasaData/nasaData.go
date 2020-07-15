@@ -25,12 +25,14 @@ func GetData() SolDay {
 		fmt.Println("Successful Get Request with NasaData API")
 	}
 	body, err := ioutil.ReadAll(resp.Body)
+	fmt.Println(body)
 	if err != nil {
 		log.Fatalln(err)
 	}
-
+	fmt.Println(resp)
 	var result SolDay
 	json.Unmarshal([]byte(body), &result)
+	fmt.Println(result)
 	return result
 
 }

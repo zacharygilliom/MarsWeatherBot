@@ -1,14 +1,12 @@
 package twitter
 
 import (
-	"fmt"
 	"github.com/dghubble/go-twitter/twitter"
-	//"github.com/zacharygilliom/MarsWeatherBot/pkg/client"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
-	//"strconv"
 	"strings"
 )
 
+// Read in the tweet by the user and decide how to respond.
 func ReplySwitch(message, user string, client *twitter.Client) {
 	if strings.Contains(message, "--Weather") {
 		ReplyDayAndWeather(user, client)
@@ -26,6 +24,7 @@ func ReplyAbout(user string, client *twitter.Client) {
 	NewTweet(client, body)
 }
 
+// Check if data queried is not empty and tweet out the weather.
 func ReplyDayAndWeather(user string, client *twitter.Client) {
 	nasadata := nasaData.GetData()
 	if len(nasadata) == 0 {
@@ -38,23 +37,6 @@ func ReplyDayAndWeather(user string, client *twitter.Client) {
 		tweetBody := "@" + user + " " + body
 		NewTweet(client, tweetBody)
 	}
-	/*
-		fmt.Println(nasadata)
-		currentDay := nasaData.GetSolDay()
-		fmt.Println(currentDay)
-		//strDay := strconv.Itoa(currentDay)
-		//currentDayTemp := nasaData.GetDayTemp(currentDay, data)
-		//currentTempStr := fmt.Sprintf("%.2f", currentDayTemp)
-		listday := nasaData.GetListDays(nasadata)
-		fmt.Println(listday)
-		body := ConfigureTweet(listday, currentDay, nasadata)
-		fmt.Println(body)
-
-		tweetBody := "@" + user + " " + body
-		fmt.Println(tweetBody)
-		//body := "@" + user + "\n Current Mars Sol Day: " + strDay + "\n Current Temperature: " + currentTempStr
-		NewTweet(client, tweetBody)
-	*/
 }
 
 func ReplyHelp(user string, client *twitter.Client) {

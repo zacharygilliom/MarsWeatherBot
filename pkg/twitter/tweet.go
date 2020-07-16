@@ -3,8 +3,6 @@ package twitter
 import (
 	"fmt"
 	"github.com/dghubble/go-twitter/twitter"
-	//"github.com/dghubble/oauth1"
-	//"github.com/zacharygilliom/MarsWeatherBot/configs"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/client"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
 	"os"
@@ -16,7 +14,12 @@ import (
 func NewTweet(client *twitter.Client, body string) {
 	tweet, resp, err := client.Statuses.Update(body, nil)
 	if err != nil {
-		fmt.Println("Tweet Unsuccessful: %s, response: %s, error: %v", tweet, resp, err)
+		fmt.Println("Tweet Unsuccessful:")
+		fmt.Println(tweet)
+		fmt.Println("Request Response:")
+		fmt.Println(resp)
+		fmt.Println("Error:")
+		fmt.Println(err)
 	} else {
 		fmt.Println("Tweet Successfully Posted")
 	}
@@ -30,6 +33,7 @@ func GetTimeline(client *twitter.Client) []twitter.Tweet {
 	return tweets
 }
 
+// Create a stream of all messages sent to the specified user.
 func Stream(client *twitter.Client) *twitter.Stream {
 	params := &twitter.StreamFilterParams{
 		Track:         []string{"@MarsWeatherBot"},
@@ -42,6 +46,7 @@ func Stream(client *twitter.Client) *twitter.Stream {
 	return stream
 }
 
+// Initialize our channel in a goroutine and choose what we do with the tweet.  Channel can be stopped with "Ctrl-C".
 func GetMessages() {
 	demux := twitter.NewSwitchDemux()
 	client := client.NewOauth1()
@@ -62,6 +67,7 @@ func GetMessages() {
 	fmt.Println("Stream Stopped...")
 }
 
+//When we have yesterdays weather available, function will tweet it out.
 func OneDayTweet(day int, data nasaData.SolDay) string {
 	currentTemp := nasaData.GetDayTemp(day, data)
 	strDay := strconv.Itoa(day)
@@ -71,6 +77,7 @@ func OneDayTweet(day int, data nasaData.SolDay) string {
 	return tweet
 }
 
+//If yesterday's weather is not available, we will tweet out the most recent readings.
 func MultiDayTweet(days *[]int, data nasaData.SolDay) string {
 	var tweet string
 	tweet = "No New Data. Most Recent Readings:\n"
@@ -85,6 +92,7 @@ func MultiDayTweet(days *[]int, data nasaData.SolDay) string {
 	return tweet
 }
 
+//Decide whether a tweet will be a single day tweet or a multi day tweet
 func ConfigureTweet(days *[]int, day int, data nasaData.SolDay) string {
 	check := intInSlice(day, days)
 	if check == true {

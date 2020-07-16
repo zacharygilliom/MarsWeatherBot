@@ -8,8 +8,6 @@ import (
 	"log"
 	"math"
 	"net/http"
-	//"os"
-	//"strconv"
 	"sort"
 	"time"
 )
@@ -37,9 +35,7 @@ func GetData() SolDay {
 
 }
 
-// Need to pass a whole number value to retrieve our data.  Since we are starting at time 11/26/2018 , 0,0,0 and
-// we are using the current time with non-zero values, rounding down should ive us the current day up until.
-
+// Get the list of days from our API request.
 func GetListDays(days SolDay) *[]int {
 	var listday []int
 	for day, _ := range days {
@@ -50,6 +46,7 @@ func GetListDays(days SolDay) *[]int {
 
 }
 
+// Get current mars day based on current earth day.
 func GetSolDay() int {
 	location, err := time.LoadLocation("America/New_York")
 	start := time.Date(2018, time.Month(11), 26, 0, 0, 0, 0, location)

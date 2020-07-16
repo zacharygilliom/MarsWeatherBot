@@ -3,42 +3,22 @@ package main
 import (
 	"fmt"
 	"github.com/robfig/cron/v3"
-	//"github.com/zacharygilliom/MarsWeatherBot/pkg/client"
-	//"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/twitter"
-	//"strconv"
-	"time"
 )
 
 func main() {
 
-	c := cron.New()
-	// Query our data and configure into our struct
-	// Pull the Average Temperature data out and format
-	// Create our Twitter Client through the go-twitter API.
-	// And Post the tweet
-
-	//clientOauth1 := client.NewOauth1()
-	//clientOauth2 := client.NewOauth2()
-	c.AddFunc("13 0 * * *", twitter.PostTweet)
-	c.Start()
-	select {}
-	fmt.Println("CronJob Executed")
-	//time.Sleep(120 * time.Second)
-
-	//tweets := twitter.GetTimeline(clientOauth1)
-	//lastTweet := tweets[0]
-	//fmt.Println(lastTweet.Text)
-	//stream := twitter.Stream(clientOauth1)
-	/*for message := range stream.Messages {
-		fmt.Println(message)
-	}
+	/*Create our cron job and execute our daily tweet in the cron job.
+	Also will initialize the stream of tweets and will keep it open using the
+	"select {}" statement.
 	*/
-	//demux.HandleChan(stream.Messages)
-	//stream.Stop()
+
+	c := cron.New()
+	c.AddFunc("30 20 * * *", twitter.PostTweet)
+	c.Start()
+	fmt.Println("CronJob Executed")
+
 	twitter.GetMessages()
-	time.Sleep(120 * time.Second)
+	select {}
 
 }
-
-//TODO: create function to reply to tweets

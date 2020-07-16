@@ -22,6 +22,7 @@ func main() {
 	//clientOauth2 := client.NewOauth2()
 	c.AddFunc("13 0 * * *", twitter.PostTweet)
 	c.Start()
+	select {}
 	fmt.Println("CronJob Executed")
 	//time.Sleep(120 * time.Second)
 

@@ -54,7 +54,7 @@ func GetMessages() {
 	}
 	stream := Stream(client)
 	fmt.Println("Stream Started...")
-	demux.HandleChan(stream.Messages)
+	go demux.HandleChan(stream.Messages)
 	ch := make(chan os.Signal)
 	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
 	<-ch

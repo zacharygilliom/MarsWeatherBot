@@ -19,6 +19,5 @@ func main() {
 	fmt.Println("CronJob Executed")
 
 	twitter.GetMessages()
-	select {}
 
 }

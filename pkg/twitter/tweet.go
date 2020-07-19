@@ -95,7 +95,7 @@ func MultiDayTweet(days *[]int, data nasaData.SolDay) string {
 //Decide whether a tweet will be a single day tweet or a multi day tweet
 func ConfigureTweet(days *[]int, day int, data nasaData.SolDay) string {
 	check := intInSlice(day, days)
-	if check == true {
+	if check == true && data.GetDayTemp(day, data) != 0 {
 		tweet := OneDayTweet(day, data)
 		return tweet
 	} else {

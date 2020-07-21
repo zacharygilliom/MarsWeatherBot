@@ -9,8 +9,7 @@ import (
 func main() {
 
 	/*Create our cron job and execute our daily tweet in the cron job.
-	Also will initialize the stream of tweets and will keep it open using the
-	"select {}" statement.
+	Also will initialize the stream of tweets
 	*/
 
 	c := cron.New()

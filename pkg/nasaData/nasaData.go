@@ -18,7 +18,8 @@ func GetData() SolDay {
 	resp, err := http.Get("https://api.nasa.gov/insight_weather/?api_key=" +
 		api_key + "&feedtype=json&ver=1.0")
 	if err != nil {
-		fmt.Println("Get Request Error : %d", err)
+		fmt.Println("Get Request Error :")
+		fmt.Println(err)
 	} else {
 		fmt.Println("Successful Get Request with NasaData API")
 	}
@@ -61,6 +62,7 @@ func GetSolDay() int {
 	return solDayFloorInt
 }
 
+// Using the current sol day from the GetSolDay function, we will pull the information from our NASA API Request for this day
 func GetDayTemp(solDay int, data SolDay) float64 {
 	currentDayTemp := data[solDay].AT.Av
 	return currentDayTemp

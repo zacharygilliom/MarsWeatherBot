@@ -11,6 +11,7 @@ import (
 	"syscall"
 )
 
+// Send tweet to Twitter API
 func NewTweet(client *twitter.Client, body string) {
 	tweet, resp, err := client.Statuses.Update(body, nil)
 	if err != nil {
@@ -25,6 +26,7 @@ func NewTweet(client *twitter.Client, body string) {
 	}
 }
 
+// Will be used in future. Will use this later
 func GetTimeline(client *twitter.Client) []twitter.Tweet {
 	tweets, resp, err := client.Timelines.MentionTimeline(nil)
 	if err != nil {
@@ -67,7 +69,7 @@ func GetMessages() {
 	fmt.Println("Stream Stopped...")
 }
 
-//When we have yesterdays weather available, function will tweet it out.
+// When we have yesterdays weather available, function will tweet it out.
 func OneDayTweet(day int, data nasaData.SolDay) string {
 	currentTemp := nasaData.GetDayTemp(day, data)
 	strDay := strconv.Itoa(day)
@@ -77,7 +79,7 @@ func OneDayTweet(day int, data nasaData.SolDay) string {
 	return tweet
 }
 
-//If yesterday's weather is not available, we will tweet out the most recent readings.
+// If yesterday's weather is not available, we will tweet out the most recent readings.
 func MultiDayTweet(days *[]int, data nasaData.SolDay) string {
 	var tweet string
 	tweet = "No New Data. Most Recent Readings:\n"
@@ -92,7 +94,7 @@ func MultiDayTweet(days *[]int, data nasaData.SolDay) string {
 	return tweet
 }
 
-//Decide whether a tweet will be a single day tweet or a multi day tweet
+// Decide whether a tweet will be a single day tweet or a multi day tweet
 func ConfigureTweet(days *[]int, day int, data nasaData.SolDay) string {
 	check := intInSlice(day, days)
 	temp := nasaData.GetDayTemp(day, data)
@@ -105,6 +107,7 @@ func ConfigureTweet(days *[]int, day int, data nasaData.SolDay) string {
 	}
 }
 
+// Check for value in a list
 func intInSlice(a int, list *[]int) bool {
 	for _, b := range *list {
 		if b == a {
@@ -114,6 +117,7 @@ func intInSlice(a int, list *[]int) bool {
 	return false
 }
 
+// Send request to NASA API and tweet out our daily automated tweet
 func PostTweet() {
 	nasadata := nasaData.GetData()
 	client := client.NewOauth1()

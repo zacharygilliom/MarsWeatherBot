@@ -5,10 +5,10 @@ import (
 	"github.com/dghubble/go-twitter/twitter"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/client"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
-	"os"
-	"os/signal"
+	// "os"
+	// "os/signal"
 	"strconv"
-	"syscall"
+	// "syscall"
 )
 
 // Send tweet to Twitter API
@@ -49,7 +49,7 @@ func Stream(client *twitter.Client) *twitter.Stream {
 }
 
 // Initialize our channel in a goroutine and choose what we do with the tweet.  Channel can be stopped with "Ctrl-C".
-func GetMessages() {
+func GetMessages() (twitter.SwitchDemux, *twitter.Client) {
 	demux := twitter.NewSwitchDemux()
 	client := client.NewOauth1()
 	demux.Tweet = func(tweet *twitter.Tweet) {
@@ -59,14 +59,17 @@ func GetMessages() {
 		user := tweet.User.ScreenName
 		ReplySwitch(message, user, client)
 	}
-	stream := Stream(client)
-	fmt.Println("Stream Started...")
-	go demux.HandleChan(stream.Messages)
-	ch := make(chan os.Signal)
-	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
-	<-ch
-	stream.Stop()
-	fmt.Println("Stream Stopped...")
+	return demux, client
+	/*
+		stream := Stream(client)
+		fmt.Println("Stream Started...")
+		go demux.HandleChan(stream.Messages)
+		ch := make(chan os.Signal)
+		signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
+		<-ch
+		stream.Stop()
+		fmt.Println("Stream Stopped...")
+	*/
 }
 
 // When we have yesterdays weather available, function will tweet it out.

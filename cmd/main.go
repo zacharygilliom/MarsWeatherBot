@@ -3,7 +3,10 @@ package main
 import (
 	"fmt"
 	"github.com/robfig/cron/v3"
+	"github.com/zacharygilliom/MarsWeatherBot/pkg/client"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/twitter"
+	"os"
+	"os/signal"
 )
 
 func main() {
@@ -17,6 +20,12 @@ func main() {
 	c.Start()
 	fmt.Println("CronJob Executed")
 
-	twitter.GetMessages()
-
+	demux, client := twitter.GetMessages()
+	// client := client.NewOauth1()
+	stream := Stream(client)
+	go demux.HandleChan(stream.Messages)
+	ch := make(chan os.Signal)
+	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
+	<-ch
+	stream.Stop()
 }

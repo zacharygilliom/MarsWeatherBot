@@ -3,26 +3,28 @@ package twitter
 import (
 	"fmt"
 	"github.com/dghubble/go-twitter/twitter"
+	log "github.com/sirupsen/logrus"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/client"
 	"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
-	// "os"
-	// "os/signal"
 	"strconv"
-	// "syscall"
 )
 
 // Send tweet to Twitter API
 func NewTweet(client *twitter.Client, body string) {
 	tweet, resp, err := client.Statuses.Update(body, nil)
 	if err != nil {
-		fmt.Println("Tweet Unsuccessful:")
-		fmt.Println(tweet)
-		fmt.Println("Request Response:")
-		fmt.Println(resp)
-		fmt.Println("Error:")
-		fmt.Println(err)
+		log.Debug("Tweet Unsuccessful: %v", err)
+		log.Debug(tweet, resp)
+		/*
+			fmt.Println("Tweet Unsuccessful:")
+			fmt.Println(tweet)
+			fmt.Println("Request Response:")
+			fmt.Println(resp)
+			fmt.Println("Error:")
+			fmt.Println(err)
+		*/
 	} else {
-		fmt.Println("Tweet Successfully Posted")
+		log.Info("Tweet Successfully Posted")
 	}
 }
 
@@ -30,7 +32,8 @@ func NewTweet(client *twitter.Client, body string) {
 func GetTimeline(client *twitter.Client) []twitter.Tweet {
 	tweets, resp, err := client.Timelines.MentionTimeline(nil)
 	if err != nil {
-		fmt.Println(resp, err)
+		log.Debug("Error Connecting to users Timeline: %v", err)
+		log.Debug("Error Response: %v", resp)
 	}
 	return tweets
 }
@@ -43,7 +46,8 @@ func Stream(client *twitter.Client) *twitter.Stream {
 	}
 	stream, err := client.Streams.Filter(params)
 	if err != nil {
-		fmt.Println("Stream Connection Failed")
+		log.Debug("Stream Connection Failed: %v", err)
+		return nil
 	}
 	return stream
 }
@@ -125,7 +129,7 @@ func PostTweet() {
 	nasadata := nasaData.GetData()
 	client := client.NewOauth1()
 	if nasadata == nil {
-		fmt.Println("Error While Parsing JSON Data")
+		log.Debug("Error While Parsing JSON Data")
 	}
 	solDay := nasaData.GetSolDay()
 	listday := nasaData.GetListDays(nasadata)

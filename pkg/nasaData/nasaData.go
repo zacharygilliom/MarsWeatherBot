@@ -2,10 +2,9 @@ package nasaData
 
 import (
 	"encoding/json"
-	"fmt"
+	log "github.com/sirupsen/logrus"
 	"github.com/zacharygilliom/MarsWeatherBot/configs"
 	"io/ioutil"
-	"log"
 	"math"
 	"net/http"
 	"sort"
@@ -18,20 +17,16 @@ func GetData() SolDay {
 	resp, err := http.Get("https://api.nasa.gov/insight_weather/?api_key=" +
 		api_key + "&feedtype=json&ver=1.0")
 	if err != nil {
-		fmt.Println("Get Request Error :")
-		fmt.Println(err)
-	} else {
-		fmt.Println("Successful Get Request with NasaData API")
+		log.Debug("HTTP Request Error: %v", err)
+		return nil
 	}
 	body, err := ioutil.ReadAll(resp.Body)
-	fmt.Println(body)
 	if err != nil {
-		log.Fatalln(err)
+		log.Debug("Get Request Body Header Error: %v", err)
+		return nil
 	}
-	fmt.Println(resp)
 	var result SolDay
 	json.Unmarshal([]byte(body), &result)
-	fmt.Println(result)
 	return result
 
 }
@@ -52,7 +47,7 @@ func GetSolDay() int {
 	location, err := time.LoadLocation("America/New_York")
 	start := time.Date(2018, time.Month(11), 26, 0, 0, 0, 0, location)
 	if err != nil {
-		fmt.Println(err)
+		log.Debug(err)
 	}
 	now := time.Now()
 	earthDays := now.Sub(start).Hours() / 24

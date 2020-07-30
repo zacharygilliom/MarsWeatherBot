@@ -11,4 +11,5 @@ require (
 	github.com/wcharczuk/go-chart v2.0.1+incompatible
 	golang.org/x/image v0.0.0-20200618115811-c13761719519 // indirect
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
+	gonum.org/v1/plot v0.7.0
 )

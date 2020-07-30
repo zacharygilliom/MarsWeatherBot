@@ -24,7 +24,8 @@ func main() {
 	defer file.Close()
 
 	log.SetOutput(file)
-	visuals.GraphWeather()
+	x, y := visuals.GetAxesValues()
+	visuals.PlotGraph(x, y)
 
 	c := cron.New()
 	c.AddFunc("30 20 * * *", twitter.PostTweet)

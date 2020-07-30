@@ -2,11 +2,13 @@ package nasaData
 
 import (
 	"encoding/json"
+	// "fmt"
 	log "github.com/sirupsen/logrus"
 	"github.com/zacharygilliom/MarsWeatherBot/configs"
 	"io/ioutil"
 	"math"
 	"net/http"
+	// "os"
 	"sort"
 	"time"
 )
@@ -63,7 +65,7 @@ func GetDayTemp(solDay int, data SolDay) float64 {
 	return currentDayTemp
 }
 
-/* Function below is to allow the user to download a copy of the json data and then use that data repeatedly instead of making numerous API calls.
+/*
 func ParseJsonFile() SolDay {
 	jsonFile, err := os.Open("nasa.json")
 

@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"github.com/robfig/cron/v3"
 	log "github.com/sirupsen/logrus"
-	"github.com/zacharygilliom/MarsWeatherBot/pkg/twitter"
+	"github.com/zacharygilliom/MarsWeatherBot/internal/twitter"
+	"github.com/zacharygilliom/MarsWeatherBot/internal/visuals"
 	"os"
 	"os/signal"
 	"syscall"
@@ -23,6 +24,7 @@ func main() {
 	defer file.Close()
 
 	log.SetOutput(file)
+	visuals.GraphWeather()
 
 	c := cron.New()
 	c.AddFunc("30 20 * * *", twitter.PostTweet)

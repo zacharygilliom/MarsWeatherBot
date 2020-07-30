@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/dghubble/go-twitter/twitter"
 	log "github.com/sirupsen/logrus"
-	"github.com/zacharygilliom/MarsWeatherBot/pkg/client"
-	"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
+	"github.com/zacharygilliom/MarsWeatherBot/internal/client"
+	"github.com/zacharygilliom/MarsWeatherBot/internal/nasaData"
 	"strconv"
 )
 

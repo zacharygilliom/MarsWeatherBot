@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"github.com/robfig/cron/v3"
 	log "github.com/sirupsen/logrus"
-	"github.com/zacharygilliom/MarsWeatherBot/pkg/twitter"
+	"github.com/zacharygilliom/MarsWeatherBot/internal/twitter"
+	"github.com/zacharygilliom/MarsWeatherBot/internal/visuals"
 	"os"
 	"os/signal"
 	"syscall"
@@ -24,8 +25,10 @@ func main() {
 
 	log.SetOutput(file)
 
+	GraphWeather()
+
 	c := cron.New()
-	c.AddFunc("30 20 * * *", twitter.PostTweet)
+	c.AddFunc("30 20 * * *", twitter.PostTextTweet)
 	c.Start()
 
 	demux, client := twitter.GetMessages()
@@ -38,4 +41,9 @@ func main() {
 	fmt.Println("Stream Stopped...")
 	stream.Stop()
 	c.Stop()
+}
+
+func GraphWeather() {
+	x, y := visuals.GetAxesValues()
+	visuals.PlotGraph(x, y)
 }

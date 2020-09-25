@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/dghubble/go-twitter/twitter"
 	log "github.com/sirupsen/logrus"
-	"github.com/zacharygilliom/MarsWeatherBot/pkg/client"
-	"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
+	"github.com/zacharygilliom/MarsWeatherBot/internal/client"
+	"github.com/zacharygilliom/MarsWeatherBot/internal/nasaData"
 	"strconv"
 )
 
@@ -64,16 +64,6 @@ func GetMessages() (twitter.SwitchDemux, *twitter.Client) {
 		ReplySwitch(message, user, client)
 	}
 	return demux, client
-	/*
-		stream := Stream(client)
-		fmt.Println("Stream Started...")
-		go demux.HandleChan(stream.Messages)
-		ch := make(chan os.Signal)
-		signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
-		<-ch
-		stream.Stop()
-		fmt.Println("Stream Stopped...")
-	*/
 }
 
 // When we have yesterdays weather available, function will tweet it out.
@@ -125,7 +115,7 @@ func intInSlice(a int, list *[]int) bool {
 }
 
 // Send request to NASA API and tweet out our daily automated tweet
-func PostTweet() {
+func PostTextTweet() {
 	nasadata := nasaData.GetData()
 	client := client.NewOauth1()
 	if nasadata == nil {

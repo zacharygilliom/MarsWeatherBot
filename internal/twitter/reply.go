@@ -2,7 +2,7 @@ package twitter
 
 import (
 	"github.com/dghubble/go-twitter/twitter"
-	"github.com/zacharygilliom/MarsWeatherBot/pkg/nasaData"
+	"github.com/zacharygilliom/MarsWeatherBot/internal/nasaData"
 	"strings"
 )
 

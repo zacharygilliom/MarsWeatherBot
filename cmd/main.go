@@ -24,11 +24,11 @@ func main() {
 	defer file.Close()
 
 	log.SetOutput(file)
-	x, y := visuals.GetAxesValues()
-	visuals.PlotGraph(x, y)
+
+	GraphWeather()
 
 	c := cron.New()
-	c.AddFunc("30 20 * * *", twitter.PostTweet)
+	c.AddFunc("30 20 * * *", twitter.PostTextTweet)
 	c.Start()
 
 	demux, client := twitter.GetMessages()
@@ -41,4 +41,9 @@ func main() {
 	fmt.Println("Stream Stopped...")
 	stream.Stop()
 	c.Stop()
+}
+
+func GraphWeather() {
+	x, y := visuals.GetAxesValues()
+	visuals.PlotGraph(x, y)
 }

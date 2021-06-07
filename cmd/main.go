@@ -16,7 +16,7 @@ func main() {
 	/*Create our cron job and execute our daily tweet in the cron job.
 	Also will initialize the stream of tweets
 	*/
-	file, err := os.OpenFile("/home/zacharygilliom/goProjects/MarsWeatherBot/logs/info.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
+	file, err := os.OpenFile("/home/zach/goProjects/MarsWeatherBot/logs/info.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
